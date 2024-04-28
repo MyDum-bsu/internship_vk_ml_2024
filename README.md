@@ -27,7 +27,7 @@
 ```py
 
     default_parameters = {
-    'iterations': 4000},
+    'iterations': 4000,
 
     'custom_metric': ['NDCG:top=5', 'PFound',
                       'AverageGain:top=10', 'MAP:top=5',
