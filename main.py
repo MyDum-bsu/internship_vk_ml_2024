@@ -7,8 +7,8 @@ from sklearn.metrics import ndcg_score
 import argparse
 
 
-def train_test_split(df):
-    train_size = int(0.8*len(df))
+def train_test_split(train_size, df):
+    train_size = int(train_size*len(df))
     shuffle_df = df.sample(frac=1)
 
     train_df = shuffle_df[:train_size].reset_index(drop=True)
@@ -54,8 +54,10 @@ if __name__ == '__main__':
 
     parser.add_argument('--input-file', '-i', type=str, default='intern_task.csv', help="input file with things one per line")
     parser.add_argument('--work-dir', '-o', type=str, default='out', help="output working directory")
+    parser.add_argument('--resume', action='store_true', default=False, help="when this flag is used, we will resume optimization from existing model in the workdir")
+    parser.add_argument('--train-size', type=float, default=0.8, help="train size")
     parser.add_argument('--max-steps', type=int, default=2000, help="max number of optimization steps to run for, or -1 for infinite.")
-    parser.add_argument('--device', type=str, default='cpu', help="device to use for compute, examples: cpu|cuda|cuda:2|mps")
+    parser.add_argument('--device', type=str, default='CPU', help="device to use for compute, examples: CPU|GPU")
     parser.add_argument('--seed', type=int, default=0, help="seed")
     parser.add_argument('--top-k', type=int, default=5, help="top-k")
     
@@ -68,7 +70,7 @@ if __name__ == '__main__':
     
 
     df = pd.read_csv(args.input_file)
-    X_train, X_test, y_train, y_test, queries_train, queries_test = train_test_split(df)
+    X_train, X_test, y_train, y_test, queries_train, queries_test = train_test_split(args.train_size, df)
 
     max_relevance = np.max(y_train)
 
@@ -99,9 +101,14 @@ if __name__ == '__main__':
     'random_seed': args.seed,
     'train_dir': args.work_dir,
     'learning_rate': args.learning_rate,
+    'task_type': args.device,
     }
 
-    model = fit_model(default_parameters, train, test)
+    if args.resume:
+        model = CatBoostRanker()
+        model.load_model(args.work_dir)
+    else:
+        model = fit_model(default_parameters, train, test)    
 
     widget = MetricVisualizer(args.work_dir)
     widget.start()
