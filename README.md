@@ -16,7 +16,43 @@
 * оформить решение на github.
 
 ## Решение
+Полный пайплайн решения находится в файле [**_main.py_**](https://github.com/MyDum-bsu/internship_vk_ml_2024/blob/main/main.py). 
 Для решения задачи использовался Catboost.
+
+### install
+
+    $ pip install numpy pandas scikit-learn catboost
+
+### quick start
+Чтобы начать обучение выбранной модели запустите файл
+
+    $ python main.py 
+
+### parameters
+
+Файл можно запускать с множеством флагов
+
+    --input-file        файл датасета
+    --work-dir          файл сохранения обучения
+    --out-file          файл модели
+    --resume            флаг использования существующей модели
+    --train-size        процентный размер обучающей выборки
+    --max-steps         число итераций
+    --device            устройство: CPU или GPU
+    --seed              установить начальный сид
+    --top-k             параметр для метрик
+    --loss              функция потерь
+    --weight            флаг использования взвешенных queiry
+    --learning-rate     размер шага
+    --verbose           логгирование
+Если у вас есть сохраненная модель, её можно запустить, указав каталог
+
+    $ python main.py --out-file=pair-logit
+
+В результате применения моделей получим следующие графики
+
+![Alt текст](img/4k_pfound.png)
+![Alt текст](img/4k_recall.png)
 
  В файле [**_utils.ipynb_**](https://github.com/MyDum-bsu/internship_vk_ml_2024/blob/main/utils.ipynb)
  
@@ -52,9 +88,5 @@
 
 
 
-Для обучения использовались ресурсы Google Colab. Файл [**_utils_colab.ipynb_**](https://github.com/MyDum-bsu/internship_vk_ml_2024/blob/main/utils_colab.ipynb) содержит блоки обучения моделей.
-
-![Alt текст](img/4k_pfound.png)
-![Alt текст](img/4k_recall.png)
-
+Для обучения использовались ресурсы Google Colab. Файл [**_utils_colab.ipynb_**](https://github.com/MyDum-bsu/internship_vk_ml_2024/blob/main/utils_colab.ipynb) содержит блоки кода обучения моделей.
 
