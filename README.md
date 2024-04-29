@@ -95,6 +95,7 @@ imp = model.get_feature_importance(data=train)
 X_train_filtered = X_train.loc[:, np.quantile(imp, 0.5) <= imp]
 X_test_filtered = X_test.loc[:, np.quantile(imp, 0.5) <= imp]
 ```
+![Alt текст](img/importance.png)
 
 В результате обучения модели с функцией потерь `YetiRank` на `4000` итераций получилось достичь `ndcg@5=0.99`
 
