@@ -87,6 +87,16 @@
 |     YetiRankPairwise, lr=0.3| 0.7739077626929334  |
 
 
+Помимо этого было произведено иследование на важность признаков, были отобраны признаки следующим образом:
+
+
+```py
+imp = model.get_feature_importance(data=train)
+X_train_filtered = X_train.loc[:, np.quantile(imp, 0.5) <= imp]
+X_test_filtered = X_test.loc[:, np.quantile(imp, 0.5) <= imp]
+```
+
+В результате обучения модели с функцией потерь `YetiRank` на `4000` итераций получилось достичь `ndcg@5=0.99`
 
 Для обучения использовались ресурсы Google Colab. Файл [**_utils_colab.ipynb_**](https://github.com/MyDum-bsu/internship_vk_ml_2024/blob/main/utils_colab.ipynb) содержит блоки кода обучения моделей.
 
